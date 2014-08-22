@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"github.com/opesun/goquery"
 	"github.com/widuu/goini"
+	"net/mail"
 	"net/smtp"
 	"strconv"
 	"strings"
@@ -48,35 +50,32 @@ func GetSubjectBody(url string) {
 	if error != nil {
 		panic(error)
 	}
-	pTitle := p.Find("title").Text()
-	pHtml := p.Html()
-	fmt.Print(pTitle)
-	//subject := pTitle
-	body := pHtml
-	subject := "This is the email body."
+	subject := p.Find("title").Text()
+	body := p.Html()
+	fmt.Print(subject)
+	//subject := "This is the email body."
 	GetConf(subject, body)
 }
 
 //获取到config.ini里面的配置文件
 func GetConf(subject, body string) {
 	conf := goini.SetConfig("./config.ini")
-	mailHost := conf.GetValue("info", "MailHost") + ":25"
+	mailHost := conf.GetValue("info", "MailHost") // + ":25"
 	mailUser := conf.GetValue("info", "MailUser")
 	mailPassword := conf.GetValue("info", "MailPassword")
-	evernoteMail := conf.GetValue("info", "EvernoteMail")
+	//evernoteMail := conf.GetValue("info", "EvernoteMail")
 	//notebook := conf.GetValue("info", "Notebook")
+	evernoteMail := "279478776@qq.com"
 
 	fmt.Println(mailHost)
 	fmt.Println(mailUser)
 	fmt.Println(mailPassword)
 	fmt.Println(evernoteMail)
-	//fmt.Println(notebook)
 	fmt.Println(subject)
-	//fmt.Println(body)
-	//subject := "This is the email body."
 
 	fmt.Println("send email")
-	err := SendToEvernote(mailUser, mailPassword, mailHost, evernoteMail, subject, body, "html")
+	//err := SendToEvernote(mailUser, mailPassword, mailHost, evernoteMail, subject, body, "html")
+	err := SendToEvernote(mailUser, mailPassword, mailHost, evernoteMail, subject, body)
 	if err != nil {
 		fmt.Println("send mail error!")
 		fmt.Println(err)
@@ -87,20 +86,35 @@ func GetConf(subject, body string) {
 }
 
 //发送邮件到Evernote
-func SendToEvernote(user, password, host, to, subject, body, mailtype string) error {
-	hostPort := strings.Split(host, ":")
-	auth := smtp.PlainAuth("", user, password, hostPort[0])
-	var content_type string
-	if mailtype == "html" {
-		content_type = "Content-Type: text/" + mailtype + "; charset=UTF-8"
-	} else {
-		content_type = "Content-Type: text/plain" + "; charset=UTF-8"
-	}
 
-	msg := []byte("To: " + to + "\r\nFrom: " + user + "<" + user + ">\r\nSubject: " +
-		subject + "\r\n" + content_type + "\r\n\r\n" + body)
-	send_to := strings.Split(to, ";")
-	err := smtp.SendMail(host, auth, user, send_to, msg)
+func SendToEvernote(user, password, host, to, subject, body string) error {
+	b64 := base64.NewEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
+	from := mail.Address{user, user}
+	toMail := mail.Address{to, to}
+	header := make(map[string]string)
+	header["From"] = from.String()
+	header["To"] = toMail.String()
+	header["Subject"] = fmt.Sprintf("=?UTF-8?B?%s?=", b64.EncodeToString([]byte(subject)))
+	header["MIME-Version"] = "1.0"
+	header["Content-Type"] = "text/html; charset=UTF-8"
+	header["Content-Transfer-Encoding"] = "base64"
+
+	message := ""
+	for k, v := range header {
+		message += fmt.Sprintf("%s: %s\r\n", k, v)
+	}
+	message += "\r\n" + b64.EncodeToString([]byte(body))
+	auth := smtp.PlainAuth("", user, password, host)
+	err := smtp.SendMail(
+		host+":25",
+		auth, user,
+		[]string{toMail.Address},
+		[]byte(message),
+	)
+
+	if err != nil {
+		panic(err)
+	}
 	return err
 }
 
@@ -109,24 +123,5 @@ func main() {
 	url := conf.GetValue("info", "Url")
 	GetZhihuQuestionList(url + "?page=")
 	fmt.Print(len(urlList))
-
-	//subject := "This is the email body."
-	//body := `
-	//   <html>
-	//   <body>
-	//   <h3>
-	//   "Test send email by golang"
-	//   </h3>
-	//   </body>
-	//   </html>
-	//   `
-	//fmt.Println("send email")
-	//err := SendToEvernote(mailUser, mailPassword, mailHost, evernoteMail, subject, body, "html")
-	//if err != nil {
-	//	fmt.Println("send mail error!")
-	//	fmt.Println(err)
-	//} else {
-	//	fmt.Println("send mail success!")
-	//}
 
 }
