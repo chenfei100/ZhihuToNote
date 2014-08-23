@@ -8,16 +8,18 @@ import (
 	"net/mail"
 	"net/smtp"
 	"strconv"
-	"strings"
+	//"strings"
 )
 
 var urlList = []string{}
 
-//var subject string
-//var body string
-
-//通过传入的url、分析提取url里面的问题列表
 func GetZhihuQuestionList(url string) {
+	/*
+	 *  通过传入的url、分析提取url里面的问题列表
+	 *  用for循环提交分页URL地址
+	 *  并用goquery查找页面内容是否存在、用以判断是否还有分页
+	 *  用提取到的短URL加上统一URL地址头得到某一个完整URL地址
+	 */
 	urlHeader := "http://www.zhihu.com"
 	for i := 1; i < 100; i++ {
 		url := url + strconv.Itoa(i)
@@ -32,7 +34,7 @@ func GetZhihuQuestionList(url string) {
 				for i := 0; i < text.Length(); i++ {
 					singleUrl := urlHeader + text.Eq(i).Attr("href")
 					urlList = append(urlList, singleUrl)
-					GetSubjectBody(singleUrl) //调用函数提取单个问题页面的title和内容
+					GetSubjectBody(singleUrl)
 				}
 			} else { //如果text的长度小于0表示没有找到
 				fmt.Print("NO\n")
@@ -41,10 +43,14 @@ func GetZhihuQuestionList(url string) {
 		}
 	}
 
-	//fmt.Println(urlList)
 }
 
 func GetSubjectBody(url string) {
+	/*
+	 *  通过传入的单个问题url、分析提取url里面的问题标题和内容
+	 *  用goquery查找页面提取里面title作为邮件的subject、用html()作为body
+	 *
+	 */
 	//var url = "http://www.zhihu.com/question/24859069"
 	p, error := goquery.ParseUrl(url)
 	if error != nil {
@@ -53,28 +59,29 @@ func GetSubjectBody(url string) {
 	subject := p.Find("title").Text()
 	body := p.Html()
 	fmt.Print(subject)
-	//subject := "This is the email body."
 	GetConf(subject, body)
 }
 
-//获取到config.ini里面的配置文件
 func GetConf(subject, body string) {
+	/*
+	 *  用goini第三方库读取config.ini配置文件获取配置内容
+	 *  用于发送邮件
+	 *
+	 */
 	conf := goini.SetConfig("./config.ini")
-	mailHost := conf.GetValue("info", "MailHost") // + ":25"
+	mailHost := conf.GetValue("info", "MailHost")
 	mailUser := conf.GetValue("info", "MailUser")
 	mailPassword := conf.GetValue("info", "MailPassword")
-	//evernoteMail := conf.GetValue("info", "EvernoteMail")
+	evernoteMail := conf.GetValue("info", "EvernoteMail")
 	//notebook := conf.GetValue("info", "Notebook")
-	evernoteMail := "279478776@qq.com"
 
-	fmt.Println(mailHost)
-	fmt.Println(mailUser)
-	fmt.Println(mailPassword)
-	fmt.Println(evernoteMail)
-	fmt.Println(subject)
+	//fmt.Println(mailHost)
+	//fmt.Println(mailUser)
+	//fmt.Println(mailPassword)
+	//fmt.Println(evernoteMail)
+	//fmt.Println(subject)
 
 	fmt.Println("send email")
-	//err := SendToEvernote(mailUser, mailPassword, mailHost, evernoteMail, subject, body, "html")
 	err := SendToEvernote(mailUser, mailPassword, mailHost, evernoteMail, subject, body)
 	if err != nil {
 		fmt.Println("send mail error!")
@@ -85,9 +92,11 @@ func GetConf(subject, body string) {
 
 }
 
-//发送邮件到Evernote
-
 func SendToEvernote(user, password, host, to, subject, body string) error {
+	/*
+	 *发送邮件到Evernote
+	 */
+
 	b64 := base64.NewEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
 	from := mail.Address{user, user}
 	toMail := mail.Address{to, to}
@@ -107,7 +116,8 @@ func SendToEvernote(user, password, host, to, subject, body string) error {
 	auth := smtp.PlainAuth("", user, password, host)
 	err := smtp.SendMail(
 		host+":25",
-		auth, user,
+		auth,
+		user,
 		[]string{toMail.Address},
 		[]byte(message),
 	)
