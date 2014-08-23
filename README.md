@@ -50,4 +50,4 @@ Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu
 ####注意事项
 
 - 1. 如果你不想安装Go开发环境、可以直接下载`Build/ZhihuToEvernote.exe`和`config.ini`文件
-- 2. `confi.ini`文件必须是`utf-8`无BOM格式
+- 2. `config.ini`文件必须是`utf-8`无BOM格式
