@@ -17,7 +17,6 @@ ZhihuToEvernote
 - 4. 填写你在Evernote/印象笔记中的笔记本
 - 5. 将`ZhihuToEvernote.exe`和`config.ini`放在同一个目录下
 - 6. 然后运行`ZhihuToEvernote.exe`
-- 
 
 
 ####`config.ini`配置文件
