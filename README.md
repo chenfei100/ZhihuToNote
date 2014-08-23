@@ -19,23 +19,29 @@ ZhihuToEvernote
 - 6. 然后运行`ZhihuToEvernote.exe`
 - 
 
+
 ####`config.ini`配置文件
 	
 	[info]
 	Url = http://www.zhihu.com/collection/20261977
 	MailHost = smtp.126.com
-	MailUser = user@126.com
+	MailUser = user*****@126.com
 	MailPassword = password
-	EvernoteMail = evernotemail
+	EvernoteMail = user***@m.yinxiang.com
 	Notebook = 知乎收藏文章
 
 ####`config.ini`配置文件说明
 	
 	[info]
 	Url = http://www.zhihu.com/collection/20261977
+	;知乎收藏地址
 	MailHost = smtp.126.com
-	MailUser = huaisha1224@126.com
-	MailPassword = 1qaz2wsx
-	EvernoteMail = 279478776@qq.com
+	;你的邮件的smtp地址；从你邮件服务商那里得到
+	MailUser = huser*****@126.com
+	;发送邮件账号
+	MailPassword = password
+	;你的Evernote/印象笔记邮件账号
+	EvernoteMail = user***@m.yinxiang.com
+	;Evernote/印象笔记上的笔记本
 	Notebook = 知乎收藏文章
 
