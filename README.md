@@ -3,6 +3,7 @@ ZhihuToEvernote
 
 将知乎收藏自动发送到Evernote/印象笔记中；可以是自己的知乎收藏也可以是其他人的收藏内容
 
+
 Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu_to_evernote)
 
 ####下载第三方库
@@ -46,3 +47,7 @@ Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu
 	;Evernote/印象笔记上的笔记本
 	Notebook = 知乎收藏文章
 
+####注意事项
+
+- 1. 如果你不想安装Go开发环境、可以直接下载`Build/ZhihuToEvernote.exe`和`config.ini`文件
+- 2. `confi.ini`文件必须是`utf-8`无BOM格式
