@@ -2,6 +2,7 @@ ZhihuToEvernote
 ===============
 
 将知乎收藏自动发送到Evernote/印象笔记中；可以是自己的知乎收藏也可以是其他人的收藏内容
+Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu_to_evernote)
 
 ####下载第三方库
 
