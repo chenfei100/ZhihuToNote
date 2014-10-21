@@ -73,16 +73,19 @@ func GetConf(subject, body string) {
 	mailUser := conf.GetValue("info", "MailUser")
 	mailPassword := conf.GetValue("info", "MailPassword")
 	evernoteMail := conf.GetValue("info", "EvernoteMail")
-	//notebook := conf.GetValue("info", "Notebook")
+	notebook := conf.GetValue("info", "Notebook")
+	subject += "@" + notebook
 
-	//fmt.Println(mailHost)
-	//fmt.Println(mailUser)
-	//fmt.Println(mailPassword)
-	//fmt.Println(evernoteMail)
-	//fmt.Println(subject)
-
+	//调用发送邮件函数并传递参数
 	fmt.Println("send email")
-	err := SendToEvernote(mailUser, mailPassword, mailHost, evernoteMail, subject, body)
+	err := SendToEvernote(
+		mailUser,
+		mailPassword,
+		mailHost,
+		evernoteMail,
+		subject,
+		body,
+	)
 	if err != nil {
 		fmt.Println("send mail error!")
 		fmt.Println(err)
@@ -113,6 +116,7 @@ func SendToEvernote(user, password, host, to, subject, body string) error {
 		message += fmt.Sprintf("%s: %s\r\n", k, v)
 	}
 	message += "\r\n" + b64.EncodeToString([]byte(body))
+	//发送邮件
 	auth := smtp.PlainAuth("", user, password, host)
 	err := smtp.SendMail(
 		host+":25",
