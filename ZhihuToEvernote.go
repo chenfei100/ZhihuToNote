@@ -80,9 +80,6 @@ func GetConf(subject, body string) {
 		subject += "@" + notebook
 	}
 
-	//notebook := conf.GetValue("note", "Notebook")
-	//subject += "@" + notebook
-
 	//调用发送邮件函数并传递参数
 	fmt.Println("send email")
 	err := SendToNote(
