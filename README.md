@@ -31,7 +31,7 @@ Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu
 	MailPassword = password
 	[note]
 	Note = wiz
-	ReceiveMail = huaisha1224-356@mywiz.cn
+	ReceiveMail = ******@mywiz.cn
 	Notebook = 知乎收藏文章
 
 
@@ -49,7 +49,7 @@ Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu
 	;如果想保存到为知笔记就填写wiz即可；wiz/evetnote
 	Note = wiz
 	;接收内容的邮件地址;wiz和印象笔记提供
-	ReceiveMail = huaisha1224-356@mywiz.cn
+	ReceiveMail = ******@mywiz.cn
 	;如果是为知笔记的话这个可以不填写
 	Notebook = 知乎收藏文章
 
