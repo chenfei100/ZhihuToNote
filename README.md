@@ -29,8 +29,11 @@ Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu
 	MailHost = smtp.126.com
 	MailUser = user*****@126.com
 	MailPassword = password
-	EvernoteMail = user***@m.yinxiang.com
+	[note]
+	Note = wiz
+	ReceiveMail = huaisha1224-356@mywiz.cn
 	Notebook = 知乎收藏文章
+
 
 ####`config.ini`配置文件说明
 	
@@ -42,10 +45,14 @@ Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu
 	MailUser = huser*****@126.com
 	;发送邮件账号
 	MailPassword = password
-	;你的Evernote/印象笔记邮件账号
-	EvernoteMail = user***@m.yinxiang.com
-	;Evernote/印象笔记上的笔记本
+	[note]
+	;如果想保存到为知笔记就填写wiz即可；wiz/evetnote
+	Note = wiz
+	;接收内容的邮件地址;wiz和印象笔记提供
+	ReceiveMail = huaisha1224-356@mywiz.cn
+	;如果是为知笔记的话这个可以不填写
 	Notebook = 知乎收藏文章
+
 
 ####注意事项
 
