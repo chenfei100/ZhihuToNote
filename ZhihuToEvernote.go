@@ -72,17 +72,24 @@ func GetConf(subject, body string) {
 	mailHost := conf.GetValue("info", "MailHost")
 	mailUser := conf.GetValue("info", "MailUser")
 	mailPassword := conf.GetValue("info", "MailPassword")
-	evernoteMail := conf.GetValue("info", "EvernoteMail")
-	notebook := conf.GetValue("info", "Notebook")
-	subject += "@" + notebook
+	receiveMail := conf.GetValue("note", "ReceiveMail")
+	note := conf.GetValue("note", "Note")
+
+	if note != "wiz" {
+		notebook := conf.GetValue("note", "Notebook")
+		subject += "@" + notebook
+	}
+
+	//notebook := conf.GetValue("note", "Notebook")
+	//subject += "@" + notebook
 
 	//调用发送邮件函数并传递参数
 	fmt.Println("send email")
-	err := SendToEvernote(
+	err := SendToNote(
 		mailUser,
 		mailPassword,
 		mailHost,
-		evernoteMail,
+		receiveMail,
 		subject,
 		body,
 	)
@@ -95,7 +102,7 @@ func GetConf(subject, body string) {
 
 }
 
-func SendToEvernote(user, password, host, to, subject, body string) error {
+func SendToNote(user, password, host, to, subject, body string) error {
 	/*
 	 *发送邮件到Evernote
 	 */
