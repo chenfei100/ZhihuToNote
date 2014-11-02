@@ -30,10 +30,22 @@ Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu
 	MailHost = smtp.126.com
 	MailUser = user*****@126.com
 	MailPassword = password
+	
 	[note]
-	Note = wiz
-	ReceiveMail = ******@mywiz.cn
+	Note = evernote
+	
+	[evernote]
+	ReceiveMail = evernote*****@m.yinxiang.com
 	Notebook = 知乎收藏文章
+	
+	[wiz]
+	ReceiveMail = wiz*****@mywiz.cn
+	
+	[onenote]
+	ReceiveMail = me@onenote.com 
+	
+	[youdao]
+	ReceiveMail = save@note.youdao.com
 
 
 ####`config.ini`配置文件说明
@@ -46,13 +58,22 @@ Python版本请移步到[zhihu_to_evernote](https://github.com/huaisha1224/zhihu
 	MailUser = huser*****@126.com
 	;发送邮件账号
 	MailPassword = password
+	;笔记类型；evernote/onenote/youdao/wiz全部小写
 	[note]
-	;如果想保存到为知笔记就填写wiz即可；wiz/evetnote
-	Note = wiz
-	;接收内容的邮件地址;wiz和印象笔记提供
-	ReceiveMail = ******@mywiz.cn
-	;如果是为知笔记的话这个可以不填写
+	Note = evernote
+	;根据上面Note里面填写的笔记类型填写下面对应的内容
+	[evernote]
+	ReceiveMail = evernote*****@m.yinxiang.com
 	Notebook = 知乎收藏文章
+	
+	[wiz]
+	ReceiveMail = wiz*****@mywiz.cn
+	;onenote接收邮件地址是固定的不需要修改
+	[onenote]
+	ReceiveMail = me@onenote.com 
+	;youdao接收邮件地址是有道固定的不需要修改
+	[youdao]
+	ReceiveMail = save@note.youdao.com
 
 
 ####注意事项
