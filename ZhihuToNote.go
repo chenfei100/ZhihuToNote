@@ -37,7 +37,7 @@ func GetZhihuQuestionList(url string) {
 					GetSubjectBody(singleUrl)
 				}
 			} else { //如果text的长度小于0表示没有找到
-				fmt.Print("NO\n")
+				fmt.Print(".........没有文章了.......\n")
 				break
 			}
 		}
@@ -68,20 +68,28 @@ func GetConf(subject, body string) {
 	 *  用于发送邮件
 	 *
 	 */
+	var receiveMail string
 	conf := goini.SetConfig("./config.ini")
 	mailHost := conf.GetValue("info", "MailHost")
 	mailUser := conf.GetValue("info", "MailUser")
 	mailPassword := conf.GetValue("info", "MailPassword")
-	receiveMail := conf.GetValue("note", "ReceiveMail")
 	note := conf.GetValue("note", "Note")
 
-	if note != "wiz" {
-		notebook := conf.GetValue("note", "Notebook")
+	//判断用户的笔记软件类型
+	if note == "evernote" {
+		receiveMail = conf.GetValue("evernote", "ReceiveMail")
+		notebook := conf.GetValue("evernote", "Notebook")
 		subject += "@" + notebook
+	} else if note == "wiz" {
+		receiveMail = conf.GetValue("wiz", "ReceiveMail")
+	} else if note == "onenote" {
+		receiveMail = "me@onenote.com"
+	} else if note == "youdao" {
+		receiveMail = "save@note.youdao.com"
 	}
 
 	//调用发送邮件函数并传递参数
-	fmt.Println("send email")
+	fmt.Println("Save Note")
 	err := SendToNote(
 		mailUser,
 		mailPassword,
@@ -91,17 +99,17 @@ func GetConf(subject, body string) {
 		body,
 	)
 	if err != nil {
-		fmt.Println("send mail error!")
+		fmt.Println("Save Note Error!")
 		fmt.Println(err)
 	} else {
-		fmt.Println("send mail success!")
+		fmt.Println("Save Note Success!")
 	}
 
 }
 
 func SendToNote(user, password, host, to, subject, body string) error {
 	/*
-	 *发送邮件到Evernote
+	 *发送邮件到Note
 	 */
 
 	b64 := base64.NewEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
